@@ -1,0 +1,3 @@
+package RSSGator
+
+func main()
