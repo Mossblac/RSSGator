@@ -8,7 +8,3 @@ func (c *Commands) Run(s *State, cmd Command) error {
 	}
 	return fmt.Errorf("unknown command: %s", cmd.CommandName)
 }
-
-func (c *Commands) Register(name string, handler func(*State, Command) error) {
-	c.Handlers[name] = handler
-}
