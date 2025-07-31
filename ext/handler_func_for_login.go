@@ -1,6 +1,8 @@
 package ext
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func HandlerLogin(s *State, cmd Command) error {
 	if len(cmd.Args) == 0 {
@@ -8,6 +10,11 @@ func HandlerLogin(s *State, cmd Command) error {
 	}
 
 	s.Config.CurrentUserName = cmd.Args[0]
+
+	err := s.Config.SetUser(cmd.Args[0])
+	if err != nil {
+		return err
+	}
 
 	fmt.Printf("User: %v has been set", cmd.Args[0])
 
