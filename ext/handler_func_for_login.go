@@ -6,7 +6,7 @@ import (
 
 func HandlerLogin(s *State, cmd Command) error {
 	if len(cmd.Args) == 0 {
-		return fmt.Errorf("handler expects a single argument with a username")
+		return fmt.Errorf("username expected")
 	}
 
 	s.Config.CurrentUserName = cmd.Args[0]

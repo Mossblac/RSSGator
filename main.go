@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	_ "githib.com/lib/pq"
 	"github.com/Mossblac/RSSGator/ext"
 	"github.com/Mossblac/RSSGator/internal/config"
 )
