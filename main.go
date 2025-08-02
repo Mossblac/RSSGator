@@ -1,12 +1,14 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"os"
 
-	_ "githib.com/lib/pq"
 	"github.com/Mossblac/RSSGator/ext"
 	"github.com/Mossblac/RSSGator/internal/config"
+	"github.com/Mossblac/RSSGator/internal/database"
+	_ "github.com/lib/pq"
 )
 
 func main() {
@@ -16,8 +18,16 @@ func main() {
 		os.Exit(1)
 	}
 
+	db, err := sql.Open("postgres", cfg.DbUrl)
+	if err != nil {
+		fmt.Printf("error opening database: %v", err)
+	}
+
+	dbQueries := database.New(db)
+
 	currentState := ext.State{
-		Config: &cfg,
+		DataBase: dbQueries,
+		Config:   &cfg,
 	}
 
 	handler := make(map[string]func(*ext.State, ext.Command) error)
@@ -27,6 +37,7 @@ func main() {
 	}
 
 	activeCommands.Register("login", ext.HandlerLogin)
+	activeCommands.Register("register", ext.HandlerRegister)
 
 	if len(os.Args) < 2 {
 		fmt.Println("no arguments")
