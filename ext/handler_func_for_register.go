@@ -42,6 +42,11 @@ func HandlerRegister(s *State, cmd Command) error {
 	}
 	s.Config.CurrentUserName = name
 
+	err = s.Config.SetUser(name)
+	if err != nil {
+		return err
+	}
+
 	fmt.Printf("user created: %v", UD)
 
 	return nil
