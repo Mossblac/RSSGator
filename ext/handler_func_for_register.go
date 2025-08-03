@@ -47,7 +47,7 @@ func HandlerRegister(s *State, cmd Command) error {
 		return err
 	}
 
-	fmt.Printf("user created: %v", UD)
+	fmt.Printf("user created: %v\n", UD)
 
 	return nil
 }

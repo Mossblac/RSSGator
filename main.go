@@ -38,6 +38,7 @@ func main() {
 
 	activeCommands.Register("login", ext.HandlerLogin)
 	activeCommands.Register("register", ext.HandlerRegister)
+	activeCommands.Register("reset_users", ext.HandlerReset)
 
 	if len(os.Args) < 2 {
 		fmt.Println("no arguments")
@@ -54,7 +55,7 @@ func main() {
 
 	err = activeCommands.Run(&currentState, inputCommand)
 	if err != nil {
-		fmt.Printf("error running commands: %v", err)
+		fmt.Printf("error running commands: %v\n", err)
 		os.Exit(1)
 	}
 
