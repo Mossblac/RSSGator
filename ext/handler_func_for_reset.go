@@ -12,6 +12,6 @@ func HandlerReset(s *State, cmd Command) error {
 		return fmt.Errorf("error resetting users table: %v", err)
 	}
 
-	fmt.Printf("all resets success\n")
+	fmt.Printf("reset successful\n")
 	return nil
 }

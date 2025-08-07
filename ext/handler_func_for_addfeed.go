@@ -8,23 +8,19 @@ import (
 	"github.com/Mossblac/RSSGator/internal/database"
 )
 
-func HandlerAddFeed(s *State, cmd Command) error {
+func HandlerAddFeed(s *State, cmd Command, user database.User) error {
 	if len(cmd.Args) < 2 {
 		return fmt.Errorf("not enough arguments provided")
 	}
 	name := cmd.Args[0]
 	url := cmd.Args[1]
-	userId, err := s.DataBase.GetUser(context.Background(), s.Config.CurrentUserName)
-	if err != nil {
-		return fmt.Errorf("unable to obtain user UUID: %v", err)
-	}
 
 	params := database.CreateFeedParams{
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
 		Name:      name,
 		Url:       url,
-		UserID:    userId.ID,
+		UserID:    user.ID,
 	}
 
 	outputFeed, err := s.DataBase.CreateFeed(context.Background(), params)
@@ -32,7 +28,21 @@ func HandlerAddFeed(s *State, cmd Command) error {
 		return fmt.Errorf("failed to create feed: %v", err)
 	}
 
-	fmt.Printf("Feed created:\nName: %s\nURL: %s\nUserID: %s\n", outputFeed.Name, outputFeed.Url, outputFeed.UserID)
+	fmt.Printf("Feed added to table:\nName: %s\nURL: %s\nCreated By: %s\n", outputFeed.Name, outputFeed.Url, user.Name)
+
+	paramsForFollow := database.CreateFeedFollowParams{
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+		UserID:    user.ID,
+		FeedID:    outputFeed.ID,
+	}
+	newFollow, err := s.DataBase.CreateFeedFollow(context.Background(), paramsForFollow)
+	if err != nil {
+		return fmt.Errorf("failed to create follow entry: %v", err)
+	}
+
+	fmt.Printf("User:%v\nNow Following:%v\n", s.Config.CurrentUserName, newFollow.FeedName)
+
 	return nil
 }
 

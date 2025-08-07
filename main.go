@@ -41,7 +41,10 @@ func main() {
 	activeCommands.Register("reset", ext.HandlerReset)
 	activeCommands.Register("users", ext.HandlerUsers)
 	activeCommands.Register("agg", ext.HandlerAgg)
-	activeCommands.Register("addfeed", ext.HandlerAddFeed)
+	activeCommands.Register("addfeed", ext.MiddlewareLoggedIn(ext.HandlerAddFeed))
+	activeCommands.Register("feeds", ext.HandlerGetFeeds)
+	activeCommands.Register("follow", ext.MiddlewareLoggedIn(ext.HandlerFollow))
+	activeCommands.Register("following", ext.MiddlewareLoggedIn(ext.HandlerFollowing))
 
 	if len(os.Args) < 2 {
 		fmt.Println("no arguments")
