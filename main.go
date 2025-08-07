@@ -41,6 +41,7 @@ func main() {
 	activeCommands.Register("reset", ext.HandlerReset)
 	activeCommands.Register("users", ext.HandlerUsers)
 	activeCommands.Register("agg", ext.HandlerAgg)
+	activeCommands.Register("addfeed", ext.HandlerAddFeed)
 
 	if len(os.Args) < 2 {
 		fmt.Println("no arguments")

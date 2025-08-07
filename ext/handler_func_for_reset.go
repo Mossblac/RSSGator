@@ -6,10 +6,12 @@ import (
 )
 
 func HandlerReset(s *State, cmd Command) error {
+
 	err := s.DataBase.ResetUsers(context.Background())
 	if err != nil {
-		return fmt.Errorf("error resetting database")
+		return fmt.Errorf("error resetting users table: %v", err)
 	}
-	fmt.Printf("users reset successfully\n")
+
+	fmt.Printf("all resets success\n")
 	return nil
 }
