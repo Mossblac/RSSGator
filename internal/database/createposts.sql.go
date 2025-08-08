@@ -30,7 +30,7 @@ type CreatePostsParams struct {
 	Title       string
 	Url         string
 	Description string
-	PublishedAt string
+	PublishedAt time.Time
 	FeedID      int32
 }
 

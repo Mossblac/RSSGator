@@ -35,3 +35,12 @@ func (q *Queries) ResetFeedsSequence(ctx context.Context) error {
 	_, err := q.db.ExecContext(ctx, resetFeedsSequence)
 	return err
 }
+
+const resetPosts = `-- name: ResetPosts :exec
+SELECT setval('posts_id_seq', 1, false)
+`
+
+func (q *Queries) ResetPosts(ctx context.Context) error {
+	_, err := q.db.ExecContext(ctx, resetPosts)
+	return err
+}
