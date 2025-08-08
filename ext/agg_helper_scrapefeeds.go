@@ -3,6 +3,9 @@ package ext
 import (
 	"context"
 	"fmt"
+	"time"
+
+	"github.com/Mossblac/RSSGator/internal/database"
 )
 
 func ScrapeFeeds(s *State) error {
@@ -22,15 +25,43 @@ func ScrapeFeeds(s *State) error {
 	}
 	maintitle := fetchedfeed.Channel.Title
 	fmt.Printf("Channel: %v\n\n", maintitle)
+	fmt.Printf("%+v", fetchedfeed)
 
 	for i := range fetchedfeed.Channel.Item {
 		title := fetchedfeed.Channel.Item[i].Title
+		link := fetchedfeed.Channel.Item[i].Link
+		description := fetchedfeed.Channel.Item[i].Description
+		pubdate := fetchedfeed.Channel.Item[i].PubDate
 
-		fmt.Printf("article: %v added\n\n", title)
+		CreatePostParam := database.CreatePostsParams{
+			CreatedAt:   time.Now(),
+			UpdatedAt:   time.Now(),
+			Title:       title,
+			Url:         link,
+			Description: description,
+			PublishedAt: pubdate,
+			FeedID:      nextFetch.ID,
+		}
+
+		post, err := s.DataBase.CreatePosts(context.Background(), CreatePostParam)
+		if err != nil {
+			return fmt.Errorf("unable to create post: %v", err)
+		}
+		fmt.Printf("post entry created: %v\n\n", post.Title)
 	}
 	return nil
 }
 
-// func (q *Queries) GetNextFeedToFetch(ctx context.Context) (Feed, error)
-//func (q *Queries) MarkFeedFetched(ctx context.Context, id int32) error
-//-- in ext already - func FetchFeed(ctx context.Context, feedURL string) (*RSSFeed, error)
+/*type CreatePostsParams struct {
+	CreatedAt   sql.NullTime
+	UpdatedAt   sql.NullTime
+	Title       string
+	Url         string
+	Description sql.NullString
+	PublishedAt sql.NullTime
+	FeedID      int32
+}
+
+func (q *Queries) CreatePosts(ctx context.Context, arg CreatePostsParams)*/
+
+//func (q *Queries) GetPostsForUser(ctx context.Context, limit int32) ([]Post, error)

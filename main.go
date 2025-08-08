@@ -46,6 +46,7 @@ func main() {
 	activeCommands.Register("follow", ext.MiddlewareLoggedIn(ext.HandlerFollow))
 	activeCommands.Register("following", ext.MiddlewareLoggedIn(ext.HandlerFollowing))
 	activeCommands.Register("unfollow", ext.MiddlewareLoggedIn(ext.HandlerUnfollow))
+	activeCommands.Register("browse", ext.HandlerBrowse)
 
 	if len(os.Args) < 2 {
 		fmt.Println("no arguments")
