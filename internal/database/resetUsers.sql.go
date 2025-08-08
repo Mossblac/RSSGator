@@ -9,11 +9,29 @@ import (
 	"context"
 )
 
-const resetUsers = `-- name: ResetUsers :exec
+const deleteAllUsers = `-- name: DeleteAllUsers :exec
 DELETE FROM users
 `
 
-func (q *Queries) ResetUsers(ctx context.Context) error {
-	_, err := q.db.ExecContext(ctx, resetUsers)
+func (q *Queries) DeleteAllUsers(ctx context.Context) error {
+	_, err := q.db.ExecContext(ctx, deleteAllUsers)
+	return err
+}
+
+const resetFeedFollowsSequence = `-- name: ResetFeedFollowsSequence :exec
+SELECT setval('feed_follows_id_seq', 1, false)
+`
+
+func (q *Queries) ResetFeedFollowsSequence(ctx context.Context) error {
+	_, err := q.db.ExecContext(ctx, resetFeedFollowsSequence)
+	return err
+}
+
+const resetFeedsSequence = `-- name: ResetFeedsSequence :exec
+SELECT setval('feeds_id_seq', 1, false)
+`
+
+func (q *Queries) ResetFeedsSequence(ctx context.Context) error {
+	_, err := q.db.ExecContext(ctx, resetFeedsSequence)
 	return err
 }

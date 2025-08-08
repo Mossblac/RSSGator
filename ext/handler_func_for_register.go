@@ -47,7 +47,7 @@ func HandlerRegister(s *State, cmd Command) error {
 		return err
 	}
 
-	fmt.Printf("user created:\nID:%v\nCreatedat:%v\nUpdatedat:%v\nUser Name:%v", UD.ID, UD.CreatedAt, UD.UpdatedAt, UD.Name)
+	fmt.Printf("user created:\nID:%v\nCreatedat:%v\nUpdatedat:%v\nUser Name:%v\n", UD.ID, UD.CreatedAt, UD.UpdatedAt, UD.Name)
 
 	return nil
 }
