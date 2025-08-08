@@ -1,4 +1,7 @@
+
 # RSSGator
+
+gator project:
 
 you will need Postgres and Go installed to run the program
 
